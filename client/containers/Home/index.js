@@ -37,7 +37,7 @@ export default () => {
     const handleSubmitSubpart = async event => {
         event.preventDefault();
         console.log('subpart: ', value.subpart);
-        const result = await postSubpart({ subpart: value.subpart });
+        const result = await postSubpart({ link: value.link, subpart: value.subpart });
         console.log('result: ', result);
     };
 
