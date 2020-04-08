@@ -2,9 +2,10 @@ import express from 'express';
 import validUrl from 'valid-url';
 import shortid from 'shortid';
 import postLinks from '../services/postLinks';
+import postSubpart from '../services/postSubpart';
 import findURI from '../services/findURI';
 
-const baseURL = process.env.API + '/api/';
+const baseURL = `${process.env.API}/api/`;
 const router = express.Router();
 
 router.route('/')
@@ -34,9 +35,18 @@ router.route('/')
 router.route('/:subpart')
     .post(async (req, res) => {
         try {
-            const { subpart } = req.params;
+            const name = req.session.user_sid;
+            const { subpart, link: shortenURI } = req.body;
+            // const { subpart } = req.params;
+
             console.log('subpart: ', subpart);
-            res.json({ created: true });
+            console.log('sorten: ', shortenURI);
+            const result = await postSubpart(name, shortenURI, `${baseURL}${subpart}`);
+            console.log('result: ', result);
+            if (result.created) {
+                return res.json({ created: true });
+            }
+            res.status(400).json({ error: result.message || 'Bad request' });
         }
         catch (e) {
             console.log('Post subpart: ', e);

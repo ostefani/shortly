@@ -9,14 +9,19 @@ import postSubpart from '../../lib/postSubpart';
 
 export default () => {
     const [value, setValue] = useState({ link: '', subpart: '' });
-    const [error, setError] = useState('');
+    const [uriError, setUriError] = useState('');
+    const [subpartError, setSubpartError] = useState('');
     const [isURLCreated, setIsURLCreated] = useState(false);
 
     const handleChange = event => {
-        if (error) {
-            setError('');
+        if (uriError) {
+            setUriError('');
         }
-        // setLinkValue(event.target.value);
+
+        if (subpartError) {
+            setSubpartError('');
+        }
+
         setValue({ ...value, [event.target.name]: event.target.value });
     };
 
@@ -30,15 +35,21 @@ export default () => {
             setIsURLCreated(true);
         }
         else {
-            setError(result.error || result.message);
+            setUriError(result.error || result.message);
         }
     };
 
     const handleSubmitSubpart = async event => {
         event.preventDefault();
-        console.log('subpart: ', value.subpart);
+
         const result = await postSubpart({ link: value.link, subpart: value.subpart });
         console.log('result: ', result);
+        if (result.created) {
+            setIsURLCreated(false);
+        }
+        else {
+            setSubpartError(result.error || result.message);
+        }
     };
 
     return (
@@ -50,7 +61,7 @@ export default () => {
                     id="link"
                     placeholder="Paste your link"
                     value={value.link}
-                    error={error}
+                    error={uriError}
                     onChange={handleChange}
                     disabled={isURLCreated}
                 />
@@ -63,29 +74,13 @@ export default () => {
                                 id="subpart"
                                 placeholder="Your new subpart"
                                 value={value.subpart}
-                                error={error}
+                                error={subpartError}
                                 onChange={handleChange}
                             />
                         </>
                     )}
                 <Button>Send</Button>
             </Form>
-            {/* Working on it
-            isURLCreated
-                    && (
-                        <Form onSubmit={handleSubmitSubpart}>
-                            <Label inputId="link">You can change subpart</Label>
-                            <Input
-                                name="subpart"
-                                id="subpart"
-                                placeholder="Your new subpart"
-                                value={value.subpart}
-                                error={error}
-                                onChange={handleChange}
-                            />
-                            {isURLCreated && <Button>Send</Button>}
-                        </Form>
-                    )*/}
         </Page>
     );
 };
