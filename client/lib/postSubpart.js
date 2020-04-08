@@ -1,7 +1,8 @@
 const { API } = process.env;
 
 export default params => {
-    const URI = `${API}/api/:subpart`;
+    const { subpart } = params;
+    const URI = `${API}/api/${subpart}`;
 
     const query = {
         method: 'POST',
