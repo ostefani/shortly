@@ -1,0 +1,41 @@
+@font-face {
+    font-family: 'Lato-Bold';
+    src: url('/fonts/Lato-Bold.woff') format('woff');
+}
+@font-face {
+    font-family: 'Lato-Regular';
+    src: url('/fonts/Lato-Regular.woff') format('woff');
+}
+@font-face {
+    font-family: 'Roboto-Regular';
+    src: url('/fonts/Roboto-Regular.woff') format('woff');
+}
+@font-face {
+    font-family: 'Roboto-Medium';
+    src: url('/fonts/Roboto-Medium.woff') format('woff');
+}
+:root {
+    --primary: #5d1049;
+    --primary-v: #941379;
+    --primary-l: #e221ba;
+    --background: #ffffff;
+    --onbackground: #000000;
+    --onprimary: #ffffff;
+    --error: #f40404;
+    --main: 'Roboto-Regular';
+    --main-m: 'Roboto-Medium';
+    --compl: 'Lato-Bold';
+    --small: 0.875rem;
+    --med: 1rem;
+    --large: 1.5rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-size: 16px;
+    font-family: var(--main);
+}
