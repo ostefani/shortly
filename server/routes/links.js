@@ -31,6 +31,19 @@ router.route('/')
         }
     });
 
+router.route('/:subpart')
+    .post(async (req, res) => {
+        try {
+            const { subpart } = req.params;
+            console.log('subpart: ', subpart);
+            res.json({ created: true });
+        }
+        catch (e) {
+            console.log('Post subpart: ', e);
+            return res.status(400).json({ error: 'We run into propblem, try again later' });
+        }
+    });
+
 router.route('/:shortURL')
     .get(async (req, res) => {
         try {

@@ -5,8 +5,9 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Form from '../Form';
 import postURI from '../../lib/postURI';
+import postSubpart from '../../lib/postSubpart';
 
-export default ({ userCookie }) => {
+export default () => {
     const [value, setValue] = useState({ link: '', subpart: '' });
     const [error, setError] = useState('');
     const [isURLCreated, setIsURLCreated] = useState(false);
@@ -18,13 +19,12 @@ export default ({ userCookie }) => {
         // setLinkValue(event.target.value);
         setValue({ ...value, [event.target.name]: event.target.value });
     };
-    console.log('value: ', value);
 
     const handleSubmitURI = async event => {
         event.preventDefault();
         setIsURLCreated(false);
-        const result = await postURI({ link: value.link, userCookie });
-        console.log('result: ', result);
+        const result = await postURI({ link: value.link });
+
         if (result.created) {
             setValue({ ...value, link: result.shortURI });
             setIsURLCreated(true);
@@ -37,7 +37,8 @@ export default ({ userCookie }) => {
     const handleSubmitSubpart = async event => {
         event.preventDefault();
         console.log('subpart: ', value.subpart);
-        // send subpart
+        const result = await postSubpart({ subpart: value.subpart });
+        console.log('result: ', result);
     };
 
     return (
