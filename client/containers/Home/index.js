@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Form from '../Form';
+import Snackbar from '../../components/Snackbar';
 import postURI from '../../lib/postURI';
 import postSubpart from '../../lib/postSubpart';
 
@@ -46,6 +47,7 @@ export default () => {
         console.log('result: ', result);
         if (result.created) {
             setIsURLCreated(false);
+            setValue({ link: '', subpart: '' });
         }
         else {
             setSubpartError(result.error || result.message);
