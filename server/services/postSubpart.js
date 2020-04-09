@@ -7,13 +7,13 @@ export default async (name, shortenURI, shortURI) => {
             throw Error('Invalid input');
         }
 
-        const existingShortURI = await User.findOne({ links: { $elemMatch: { shortURI: shortenURI } } });
-        console.log('existingShortURI: ', existingShortURI);
+        const existingShortURI = await User.findOne({ links: { $elemMatch: { shortURI } } });
         if (existingShortURI) {
             throw Error('The subpart is already taken');
         }
 
-        existingUser.links.shortURI = shortURI;
+        const links = existingUser.links.map(e => (e.shortURI === shortenURI ? { ...e._doc, shortURI } : e._doc));
+        existingUser.links = links;
         await existingUser.save();
         return { created: true, shortURI };
     }

@@ -32,15 +32,12 @@ router.route('/')
         }
     });
 
-router.route('/:subpart')
+router.route('/subpart')
     .post(async (req, res) => {
         try {
             const name = req.session.user_sid;
             const { subpart, link: shortenURI } = req.body;
-            // const { subpart } = req.params;
 
-            console.log('subpart: ', subpart);
-            console.log('sorten: ', shortenURI);
             const result = await postSubpart(name, shortenURI, `${baseURL}${subpart}`);
             console.log('result: ', result);
             if (result.created) {
