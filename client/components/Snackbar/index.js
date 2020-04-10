@@ -1,36 +1,39 @@
 import React, { useRef, useState,useEffect } from 'react';
 import { animated, useTransition } from 'react-spring';
 
-export default ({ message, setIsSnackbarActive, isSnackbarActive }) => {
-    const messageRef = useRef(null);
-    const [isActive, setIsActive] = useState(isSnackbarActive);
-    const transitions = useTransition(isActive, null, {
-        from: { opacity: 0, height: 0 },
-        enter: { opacity: 1, height: 48 },
-        leave: { opacity: 0, height: 0 },
-        config: { duration: 500 },
+export default ({ config = { tension: 125, friction: 20, precision: 0.1 }, timeout = 3000, children }) => {
+    // const messageRef = useRef(null);
+    const [refMap] = useState(() => new WeakMap());
+    const [items, setItems] = useState([]);
+    const transitions = useTransition(items, item => item.key, {
+        from: { opacity: 0, height: 0, life: '100%' },
+        enter: item => async next => await next({ opacity: 1, height: refMap.get(item).offsetHeight }),
+        leave: item => async (next, cancel) => {
+            await next({ life: '0%' });
+            await next({ opacity: 0 });
+            await next({ height: 0 });
+        },
+        onRest: item => setItems(state => state.filter(i => i.key !== item.key)),
+        config: (item, state) => (state === 'leave' ? [{ duration: timeout }, config, config] : config),
     });
 
-    setTimeout(() => {
-        if (setIsSnackbarActive) {
-            setIsSnackbarActive(false);
-        }
-    }, 4000); // 4 sec
+    console.log('refMap: ', refMap);
+    console.log('children: ', children);
 
-    useEffect(() => {
-        setIsActive(isSnackbarActive);
-    }, [isSnackbarActive]);
+    useEffect(() => children(msg => {
+        console.log('msg: ', msg);
+        return setItems(state => [...state, { msg }])}), [])
 
     return (
         <>
             { transitions.map(({ item, key, props }) => (
                 item && (
                     <animated.div
-                        ref={messageRef}
+                        ref={ref => ref && refMap.set(item, ref)}
                         key={key}
                         style={props}
                         className="snackbar"
-                    >{message}
+                    >{item.msg}
                     </animated.div>
                 )))}
             <style jsx>{`
@@ -42,6 +45,7 @@ export default ({ message, setIsSnackbarActive, isSnackbarActive }) => {
                     height: 48px;
                     padding-left: 16px;
                     padding-right: 16px;
+                    padding: 16px;
                     justify-content: flex-start;
                     align-items: center;
                     font-size: var(--small);

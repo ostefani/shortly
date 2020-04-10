@@ -1,3 +1,4 @@
+import React, { useState, useEffect, useRef } from 'react';
 import Error from '../Error';
 import Snackbar from '../Snackbar';
 import input from './style';
@@ -16,7 +17,21 @@ export default ({
     message,
     setIsSnackbarActive,
 }) => {
-    const messages = {};
+    console.log('isSnackbarActive: ', isSnackbarActive);
+
+    const ref = useRef(null);
+
+    const setMessage = m => {
+        console.log('m: ', m)
+        return ref.current(m);
+    }
+    useEffect(() => {
+        if (isSnackbarActive) {
+            setMessage(message);
+        }
+        // else setMessage(message);
+    }, [isSnackbarActive]);
+    console.log('ref: ', ref);
     return (
         <>
             <div>
@@ -30,7 +45,9 @@ export default ({
                     onChange={onChange}
                 />
                 {error && <Error>{error}</Error>}
-                <Snackbar message={message} isSnackbarActive={isSnackbarActive} setIsSnackbarActive={setIsSnackbarActive} />
+                <Snackbar children={add => {
+                    console.log('add: ', add);
+                    return (ref.current = add)}} />
             </div>
             <style jsx>{input}</style>
             <style jsx>{`
