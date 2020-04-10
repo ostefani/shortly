@@ -4,7 +4,8 @@ export default ({ children }) => {
             <div>{children}</div>
             <style jsx>{`
                 position: absolute;
-                bottom: 0;
+                bottom: 4px;
+                left: 16px;
                 color: var(--error);
                 font-size: var(--small);
                 font-family: var(--main);

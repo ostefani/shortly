@@ -4,7 +4,6 @@ import Label from '../../components/Label';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Form from '../Form';
-import Snackbar from '../../components/Snackbar';
 import postURI from '../../lib/postURI';
 import postSubpart from '../../lib/postSubpart';
 
@@ -13,6 +12,7 @@ export default () => {
     const [uriError, setUriError] = useState('');
     const [subpartError, setSubpartError] = useState('');
     const [isURLCreated, setIsURLCreated] = useState(false);
+    const [isSnackbarActive, setIsSnackbarActive] = useState(false);
 
     const handleChange = event => {
         if (uriError) {
@@ -30,7 +30,6 @@ export default () => {
         event.preventDefault();
         setIsURLCreated(false);
         const result = await postURI({ link: value.link });
-
         if (result.created) {
             setValue({ ...value, link: result.shortURI });
             setIsURLCreated(true);
@@ -42,22 +41,33 @@ export default () => {
 
     const handleSubmitSubpart = async event => {
         event.preventDefault();
-
         const result = await postSubpart({ link: value.link, subpart: value.subpart });
-        console.log('result: ', result);
         if (result.created) {
             setIsURLCreated(false);
             setValue({ link: '', subpart: '' });
+            setIsSnackbarActive(true);
         }
         else {
             setSubpartError(result.error || result.message);
         }
     };
 
+    const handleClick = () => {
+        setIsURLCreated(false);
+        setValue({ link: '', subpart: '' });
+        setIsSnackbarActive(false);
+    };
+
+    useEffect(() => {
+        if (isURLCreated) {
+            setIsSnackbarActive(true);
+        }
+    }, [isURLCreated]);
+
     return (
         <Page>
             <Form onSubmit={isURLCreated ? handleSubmitSubpart : handleSubmitURI}>
-                <Label inputId="link">Enter your link</Label>
+                <Label inputId="link">{!isURLCreated ? 'Enter your link' : 'Your link is'}</Label>
                 <Input
                     name="link"
                     id="link"
@@ -66,6 +76,9 @@ export default () => {
                     error={uriError}
                     onChange={handleChange}
                     disabled={isURLCreated}
+                    isSnackbarActive={isSnackbarActive}
+                    setIsSnackbarActive={setIsSnackbarActive}
+                    message="Successfully created"
                 />
                 {isURLCreated
                     && (
@@ -81,8 +94,21 @@ export default () => {
                             />
                         </>
                     )}
-                <Button>Send</Button>
+                <div className="button-container">
+                    <Button>Send</Button>
+                    {isURLCreated && <Button onClick={handleClick}>Cancel</Button>}
+                    <style jsx>{`
+                        div {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fill, minmax(144px,1fr));
+                            column-gap: 16px;
+                            row-gap: 16px;
+                        }
+                    `}
+                    </style>
+                </div>
             </Form>
+
         </Page>
     );
 };

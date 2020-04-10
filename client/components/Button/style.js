@@ -20,7 +20,7 @@ button {
     font-size: var(--small);
     transition: box-shadow 0.5s ease, background-color 0.5s ease;
     border-radius: 4px;
-    justify-self: start;
+    justify-self: center;
 }
 button:hover {
     background-color: var(--primary-v);

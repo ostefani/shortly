@@ -1,9 +1,9 @@
 import Button from './style';
 
-export default ({ disabled, onClick }) => {
+export default ({ children, disabled, onClick }) => {
     return (
         <>
-            <button type="submit" disabled={disabled} onClick={onClick}>Create</button>
+            <button type="submit" disabled={disabled} onClick={onClick}>{children}</button>
             <style jsx>{Button}</style>
             <style jsx>{`
                 button {

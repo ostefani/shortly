@@ -55,7 +55,7 @@ export const FormComponent = () => (
             <Form title="Fill the form">
                 <Label inputId="test">Enter your name</Label>
                 <Input error="Invalid name" name="test" id="test" placeholder="Your name" />
-                <Input name="test" id="test" placeholder="Your name" />
+                <Input isSnackbarActive={true} message="URL created" name="test" id="test" placeholder="Your name" />
                 <Button>Send</Button>
             </Form>
         </Wrapper>

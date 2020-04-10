@@ -1,5 +1,8 @@
 import Error from '../Error';
+import Snackbar from '../Snackbar';
 import input from './style';
+
+const BOTTOM = '32px';
 
 export default ({
     type = 'text',
@@ -9,7 +12,11 @@ export default ({
     error,
     disabled,
     onChange,
+    isSnackbarActive,
+    message,
+    setIsSnackbarActive,
 }) => {
+    const messages = {};
     return (
         <>
             <div>
@@ -23,6 +30,7 @@ export default ({
                     onChange={onChange}
                 />
                 {error && <Error>{error}</Error>}
+                <Snackbar message={message} isSnackbarActive={isSnackbarActive} setIsSnackbarActive={setIsSnackbarActive} />
             </div>
             <style jsx>{input}</style>
             <style jsx>{`
@@ -34,7 +42,7 @@ export default ({
             <style jsx>{`
                 div {
                     position: relative;
-                    padding-bottom: 24px;
+                    padding-bottom: ${BOTTOM};
                 }
             `}
             </style>

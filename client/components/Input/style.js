@@ -3,7 +3,7 @@ import css from 'styled-jsx/css';
 export default css`
     input {
         border: 2px solid #00000040;
-        padding: 16px 8px;
+        padding: 16px;
         outline: none;
         width: 100%;
         background: 0;
