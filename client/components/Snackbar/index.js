@@ -3,8 +3,8 @@ import { animated, useTransition } from 'react-spring';
 
 export default ({ message, setIsSnackbarActive, isSnackbarActive }) => {
     const messageRef = useRef(null);
-    const [show, set] = useState(isSnackbarActive);
-    const transitions = useTransition(show, null, {
+    const [isActive, setIsActive] = useState(isSnackbarActive);
+    const transitions = useTransition(isActive, null, {
         from: { opacity: 0, height: 0 },
         enter: { opacity: 1, height: 48 },
         leave: { opacity: 0, height: 0 },
@@ -18,7 +18,7 @@ export default ({ message, setIsSnackbarActive, isSnackbarActive }) => {
     }, 4000); // 4 sec
 
     useEffect(() => {
-        set(isSnackbarActive);
+        setIsActive(isSnackbarActive);
     }, [isSnackbarActive]);
 
     return (
