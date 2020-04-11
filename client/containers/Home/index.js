@@ -15,11 +15,6 @@ export default () => {
     const [isSubpartCreated, setIsSubpartCreated] = useState(false);
     const [isSnackbarActive, setIsSnackbarActive] = useState(false);
 
-    console.log('isURLCreated: ', isURLCreated);
-    console.log('isSubpartCreated: ', isSubpartCreated);
-    console.log('isSnackbarActive: ', isSnackbarActive);
-    console.log('------------------');
-
     const handleChange = event => {
         if (uriError) {
             setUriError('');
