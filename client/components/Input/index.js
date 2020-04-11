@@ -17,21 +17,18 @@ export default ({
     message,
     setIsSnackbarActive,
 }) => {
-    console.log('isSnackbarActive: ', isSnackbarActive);
-
     const ref = useRef(null);
 
     const setMessage = m => {
-        console.log('m: ', m)
         return ref.current(m);
-    }
+    };
+
     useEffect(() => {
         if (isSnackbarActive) {
             setMessage(message);
         }
-        // else setMessage(message);
     }, [isSnackbarActive]);
-    console.log('ref: ', ref);
+
     return (
         <>
             <div>
@@ -45,8 +42,7 @@ export default ({
                     onChange={onChange}
                 />
                 {error && <Error>{error}</Error>}
-                <Snackbar children={add => {
-                    console.log('add: ', add);
+                <Snackbar setIsSnackbarActive={setIsSnackbarActive} children={add => {
                     return (ref.current = add)}} />
             </div>
             <style jsx>{input}</style>
