@@ -12,6 +12,7 @@ export default () => {
     const [uriError, setUriError] = useState('');
     const [subpartError, setSubpartError] = useState('');
     const [isURLCreated, setIsURLCreated] = useState(false);
+    const [isSubpartCreated, setIsSubpartCreated] = useState(false);
     const [isSnackbarActive, setIsSnackbarActive] = useState(false);
 
     const handleChange = event => {
@@ -41,19 +42,22 @@ export default () => {
 
     const handleSubmitSubpart = async event => {
         event.preventDefault();
+        setIsSubpartCreated(false);
+        setIsSnackbarActive(false);
         const result = await postSubpart({ link: value.link, subpart: value.subpart });
         if (result.created) {
             setIsURLCreated(false);
             setValue({ link: '', subpart: '' });
-            setIsSnackbarActive(true);
+            setIsSubpartCreated(true);
         }
         else {
             setSubpartError(result.error || result.message);
         }
     };
 
-    const handleClick = () => {
+    const handleCancelClick = () => {
         setIsURLCreated(false);
+        setIsSubpartCreated(false);
         setValue({ link: '', subpart: '' });
         setIsSnackbarActive(false);
     };
@@ -63,6 +67,12 @@ export default () => {
             setIsSnackbarActive(true);
         }
     }, [isURLCreated]);
+
+    useEffect(() => {
+        if (isSubpartCreated) {
+            setIsSnackbarActive(true);
+        }
+    }, [isSubpartCreated]);
 
     return (
         <Page>
@@ -96,7 +106,7 @@ export default () => {
                     )}
                 <div className="button-container">
                     <Button>Send</Button>
-                    {isURLCreated && <Button onClick={handleClick}>Cancel</Button>}
+                    {isURLCreated && <Button onClick={handleCancelClick}>Cancel</Button>}
                     <style jsx>{`
                         div {
                             display: grid;
