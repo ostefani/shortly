@@ -3,14 +3,15 @@ import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import TextButton from '../../components/TextButton';
 import Form from '../Form';
 import postURI from '../../lib/postURI';
 import postSubpart from '../../lib/postSubpart';
 import useForm from '../../hooks/useForm';
-import { stateSchema, validationSchema } from './schemas';
+import stateSchema from './schemas';
 
 export default () => {
-    const { state, setState, handleChange, resetForm } = useForm(stateSchema, validationSchema);
+    const { state, setState, handleChange, resetForm } = useForm(stateSchema);
     const [isURLCreated, setIsURLCreated] = useState(false);
     const [isSubpartCreated, setIsSubpartCreated] = useState(false);
     const [isSnackbarActive, setIsSnackbarActive] = useState(false);
@@ -43,12 +44,14 @@ export default () => {
         setIsSnackbarActive(false);
         const result = await postSubpart({ link: uriValue, subpart: subpartValue });
         if (result.created) {
-            setIsURLCreated(false);
-            resetForm();
+            setState({ ...state, uri: { value: result.shortURI, error: '' } });
             setIsSubpartCreated(true);
         }
         else {
-            setState({ ...state, subpart: { value: subpartValue, error: result.error || result.message }});
+            setState({
+                ...state,
+                subpart: { value: subpartValue, error: result.error || result.message },
+            });
         }
     };
 
@@ -103,7 +106,7 @@ export default () => {
                     )}
                 <div className="button-container">
                     <Button>Send</Button>
-                    {isURLCreated && <Button onClick={handleCancelClick}>Cancel</Button>}
+                    {isURLCreated && <TextButton onClick={handleCancelClick}>Complete</TextButton>}
                     <style jsx>{`
                         div {
                             display: grid;
