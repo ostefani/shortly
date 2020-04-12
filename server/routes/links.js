@@ -43,7 +43,7 @@ router.route('/subpart')
 
             const result = await postSubpart(name, shortenURI, `${baseURL}${subpart}`);
             if (result.created) {
-                return res.json({ created: true });
+                return res.json(result);
             }
             res.status(400).json({ error: result.message || 'Bad request' });
         }
