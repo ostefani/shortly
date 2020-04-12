@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3001;
 const DB = process.env.DB_URL;
 
 const setSession = (req, res, next) => {
-    if (!req.session.user_sid && !req.cookies.user_sid) {
+    if (!(req.session.user_sid && req.cookies.user_sid)) {
         const sid = Math.random().toString();
         req.session.user_sid = sid;
     }
