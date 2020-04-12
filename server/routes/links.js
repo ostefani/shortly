@@ -38,8 +38,12 @@ router.route('/subpart')
             const name = req.session.user_sid;
             const { subpart, link: shortenURI } = req.body;
 
+            if (!subpart) {
+                return res.status(400).json({ error: 'Can not be empty' });
+            }
+
             const result = await postSubpart(name, shortenURI, `${baseURL}${subpart}`);
-            console.log('result: ', result);
+
             if (result.created) {
                 return res.json({ created: true });
             }
