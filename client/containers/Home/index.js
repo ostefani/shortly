@@ -6,37 +6,34 @@ import Button from '../../components/Button';
 import Form from '../Form';
 import postURI from '../../lib/postURI';
 import postSubpart from '../../lib/postSubpart';
+import useForm from '../../hooks/useForm';
+import { stateSchema, validationSchema } from './schemas';
 
 export default () => {
-    const [value, setValue] = useState({ link: '', subpart: '' });
-    const [uriError, setUriError] = useState('');
-    const [subpartError, setSubpartError] = useState('');
+    const { state, setState, handleChange, resetForm } = useForm(stateSchema, validationSchema);
     const [isURLCreated, setIsURLCreated] = useState(false);
     const [isSubpartCreated, setIsSubpartCreated] = useState(false);
     const [isSnackbarActive, setIsSnackbarActive] = useState(false);
 
-    const handleChange = event => {
-        if (uriError) {
-            setUriError('');
-        }
-
-        if (subpartError) {
-            setSubpartError('');
-        }
-
-        setValue({ ...value, [event.target.name]: event.target.value });
-    };
+    const {
+        uri: {
+            value: uriValue, error: uriError,
+        },
+        subpart: {
+            value: subpartValue, error: subpartError,
+        },
+    } = state;
 
     const handleSubmitURI = async event => {
         event.preventDefault();
         setIsURLCreated(false);
-        const result = await postURI({ link: value.link });
+        const result = await postURI({ link: uriValue });
         if (result.created) {
-            setValue({ ...value, link: result.shortURI });
+            setState({ ...state, uri: { value: result.shortURI, error: '' } });
             setIsURLCreated(true);
         }
         else {
-            setUriError(result.error || result.message);
+            setState({ ...state, uri: { value: uriValue, error: result.error || result.message } });
         }
     };
 
@@ -44,21 +41,21 @@ export default () => {
         event.preventDefault();
         setIsSubpartCreated(false);
         setIsSnackbarActive(false);
-        const result = await postSubpart({ link: value.link, subpart: value.subpart });
+        const result = await postSubpart({ link: uriValue, subpart: subpartValue });
         if (result.created) {
             setIsURLCreated(false);
-            setValue({ link: '', subpart: '' });
+            resetForm();
             setIsSubpartCreated(true);
         }
         else {
-            setSubpartError(result.error || result.message);
+            setState({ ...state, subpart: { value: subpartValue, error: result.error || result.message }});
         }
     };
 
     const handleCancelClick = () => {
         setIsURLCreated(false);
         setIsSubpartCreated(false);
-        setValue({ link: '', subpart: '' });
+        resetForm();
         setIsSnackbarActive(false);
     };
 
@@ -77,12 +74,12 @@ export default () => {
     return (
         <Page>
             <Form onSubmit={isURLCreated ? handleSubmitSubpart : handleSubmitURI}>
-                <Label inputId="link">{!isURLCreated ? 'Enter your link' : 'Your link is'}</Label>
+                <Label inputId="uri">{!isURLCreated ? 'Enter your link' : 'Your link is'}</Label>
                 <Input
-                    name="link"
-                    id="link"
+                    name="uri"
+                    id="uri"
                     placeholder="Paste your link"
-                    value={value.link}
+                    value={uriValue}
                     error={uriError}
                     onChange={handleChange}
                     disabled={isURLCreated}
@@ -98,7 +95,7 @@ export default () => {
                                 name="subpart"
                                 id="subpart"
                                 placeholder="Your new subpart"
-                                value={value.subpart}
+                                value={subpartValue}
                                 error={subpartError}
                                 onChange={handleChange}
                             />
