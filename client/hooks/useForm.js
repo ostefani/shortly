@@ -1,10 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 
-export default (stateSchema, validationSchema = {}, callback) => {
+export default stateSchema => {
     const [state, setState] = useState(stateSchema);
     const [isDirty, setIsDirty] = useState(false);
-    const [isValidated, setIsValidated] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = useCallback(event => {
         if (!isDirty) {

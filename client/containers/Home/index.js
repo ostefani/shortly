@@ -7,10 +7,10 @@ import Form from '../Form';
 import postURI from '../../lib/postURI';
 import postSubpart from '../../lib/postSubpart';
 import useForm from '../../hooks/useForm';
-import { stateSchema, validationSchema } from './schemas';
+import stateSchema from './schemas';
 
 export default () => {
-    const { state, setState, handleChange, resetForm } = useForm(stateSchema, validationSchema);
+    const { state, setState, handleChange, resetForm } = useForm(stateSchema);
     const [isURLCreated, setIsURLCreated] = useState(false);
     const [isSubpartCreated, setIsSubpartCreated] = useState(false);
     const [isSnackbarActive, setIsSnackbarActive] = useState(false);
