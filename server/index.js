@@ -33,11 +33,11 @@ app.use(session({
     name: 'user_sid',
     secret: 'foo',
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
-    autoRemove: 'native',
+    rolling: true,
     resave: false,
     saveUninitialized: false,
     cookie: {
-        httpOnly: false, secure: false, // maxAge: 60 * 60 * 1000, // 1 hour
+        httpOnly: false, secure: false, maxAge: 60 * 1000, // 1 hour
     },
 }));
 
