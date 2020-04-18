@@ -20,10 +20,10 @@ const userSchema = new Schema({
         expires: 60, // 60 sec
         index: true,
     },*/
-    updatedAt: {
+    createdAt: {
         type: Date,
         index: true,
-        expires: 60,
+        expires: 60 * 60 * 24, // 24 hour
     },
 }, {
     timestamps: true,
