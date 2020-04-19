@@ -37,6 +37,7 @@ router.route('/subpart')
         try {
             const name = req.session.user_sid;
             const { subpart, link: shortenURI } = req.body;
+            console.log('subpart: ', subpart);
             if (!subpart) {
                 return res.status(400).json({ error: 'Can not be empty' });
             }

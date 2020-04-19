@@ -19,7 +19,7 @@ router.route('/')
                 res.status(400).json({ error: 'Bad request' });
             }
             else {
-                res.status(200).json({ user: null });
+                res.status(200).json({ found: false });
             }
         }
         catch (e) {
