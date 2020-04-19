@@ -13,7 +13,6 @@ const MongoStore = ConnectMongo(session);
 const app = express();
 const PORT = process.env.PORT || 3001;
 const { DB } = process.env;
-console.log('DB: ', DB);
 
 const setSession = (req, res, next) => {
     if (!(req.session.user_sid && req.cookies.user_sid)) {
@@ -41,7 +40,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         // httpOnly: false, secure: false, maxAge: 60 * 60 * 24 * 1000, // 24 hours
-        httpOnly: false, secure: false, maxAge: 60 * 60 * 24 * 1000, // 1 hour
+        httpOnly: false, secure: false, maxAge: 60 * 1000, // 1 hour
     },
 }));
 
@@ -51,8 +50,8 @@ mongoose.connect(DB, {
     useCreateIndex: true,
 }).then(() => console.log('connected to db')).catch(e => console.log('e: ', e));
 
+app.use('/api/page', getPages);
 app.use('/api', setSession, postLinks);
-app.use('/api/page', setSession, getPages);
 
 app.listen(PORT, () => console.log(`App listening at http://localhost:${PORT}`));
 // app.keepAliveTimeout = 0;
