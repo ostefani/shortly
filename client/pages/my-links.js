@@ -42,6 +42,9 @@ export default () => {
         else if (result.found && result.links.length === 0) {
             setIsListEnd(true);
         }
+        else if (!result.found) {
+            console.log('No user found');
+        }
         else if (result.error || result.message) {
             // Show modal here
             console.log(result.error || result.message);

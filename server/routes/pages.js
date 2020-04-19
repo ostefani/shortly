@@ -8,13 +8,18 @@ router.route('/')
     .post(async (req, res) => {
         try {
             const name = req.session.user_sid;
-            const { pageNum } = req.body;
-            const result = await getPages(name, PAGE_SIZE, pageNum);
+            if (name) {
+                const { pageNum } = req.body;
+                const result = await getPages(name, PAGE_SIZE, pageNum);
 
-            if (result.found) {
-                return res.json(result);
+                if (result.found) {
+                    return res.json(result);
+                }
+                res.status(400).json({ error: 'Bad request' });
             }
-            res.status(400).json({ error: 'Bad request' });
+            else {
+                res.status(200).json({ found: false });
+            }
         }
         catch (e) {
             console.log('Redirect error: ', e);
