@@ -8,7 +8,6 @@ router.route('/')
     .post(async (req, res) => {
         try {
             const name = req.session.user_sid;
-            console.log('name: ', name);
             if (name) {
                 const { pageNum } = req.body;
                 const result = await getPages(name, PAGE_SIZE, pageNum);
