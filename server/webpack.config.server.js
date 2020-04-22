@@ -12,7 +12,7 @@ module.exports = {
     },
     output: {
         filename: 'index.js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, '../dist/api'),
     },
     // mute warning for the view.js
     stats: {
