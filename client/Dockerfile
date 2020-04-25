@@ -1,9 +1,15 @@
-FROM node:10.20 as builder
+FROM node:10.20.1-alpine as builder
 
-COPY package.json package.json
+WORKDIR /app
+
+COPY package*.json ./
+
 RUN npm install
 
-# Add your source files
 COPY . .
+
+#RUN npm run build
+
+#EXPOSE 3000
 
 CMD ["npm","run","dev"]
