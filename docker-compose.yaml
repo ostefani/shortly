@@ -1,0 +1,29 @@
+version: "3"
+services:
+    client:
+        container_name: shortly-client
+        build:
+            context: ./client
+            dockerfile: Dockerfile.dev
+        volumes:
+            - ./client:/app/
+            - /app/node_modules
+            - /app/build
+        ports:
+            - 3000:3000
+        command: npm run dev
+    api:
+        container_name: shortly-api
+        build:
+            context: ./server
+            dockerfile: Dockerfile.dev
+        environment:
+            - DB=${DB}
+            - FRONT=${FRONT}
+            - PORT=${PORT}
+        ports:
+            - 3001:3001
+        volumes:
+            - ./server:/app/ # Inside the container, don't try to override this folder, just leave as is
+            - /app/node_modules # Look at the server directory and copy everything into the app folder in the container
+        command: npm run dev

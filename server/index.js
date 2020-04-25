@@ -13,6 +13,8 @@ const MongoStore = ConnectMongo(session);
 const app = express();
 const PORT = process.env.PORT || 3001;
 const { DB } = process.env;
+console.log('PORT: ', PORT);
+console.log('DB: ', DB);
 
 const setSession = (req, res, next) => {
     if (!(req.session.user_sid && req.cookies.user_sid)) {
