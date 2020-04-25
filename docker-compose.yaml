@@ -13,17 +13,24 @@ services:
             - 3000:3000
         command: npm run dev
     api:
+        depends_on:
+            - mongo
         container_name: shortly-api
         build:
             context: ./server
             dockerfile: Dockerfile.dev
-        environment:
-            - DB=${DB}
-            - FRONT=${FRONT}
-            - PORT=${PORT}
+        #environment:
+            #- DB=${DB}
+            #- FRONT=${FRONT}
+            #- PORT=${PORT}
         ports:
             - 3001:3001
         volumes:
+            - ./server/.env:/app/.env # building the .env file into a docker image is considered a bad practice because if the image is shared with others, the secrets can be leaked.
             - ./server:/app/ # Inside the container, don't try to override this folder, just leave as is
             - /app/node_modules # Look at the server directory and copy everything into the app folder in the container
         command: npm run dev
+    mongo:
+        image: mongo
+        ports:
+            - 27017:27017
