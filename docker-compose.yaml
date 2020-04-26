@@ -27,4 +27,4 @@ services:
         ports:
             - 27017:27017
         volumes:
-            - /data/db:data/db # Make data persist in prod
+            - ./data/db:/data/db # Make data persist in prod
