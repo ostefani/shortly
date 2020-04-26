@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "nodemon  --exec babel-node -r dotenv/config index.js",
     "build": "NODE_ENV=production webpack --config webpack.config.server.js",
-    "start": "node -r dotenv/config ../dist/api/index.js"
+    "start": "node -r dotenv/config dist/index.js"
   },
   "author": "Olga Stefanishyna",
   "license": "ISC",
