@@ -20,7 +20,7 @@ services:
             #- PORT=${PORT}
         ports:
             - 3001:3001
-        command: npm run dev
+        command: npm start
     mongo:
         image: mongo
         restart: always
