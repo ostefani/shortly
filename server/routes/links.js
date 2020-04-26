@@ -6,6 +6,7 @@ import postSubpart from '../services/postSubpart';
 import findURI from '../services/findURI';
 
 const baseURL = `${process.env.API}/api/`;
+console.log('API: ', process.env.API);
 const router = express.Router();
 
 router.route('/')
@@ -61,6 +62,7 @@ router.route('/:shortURL')
             const result = await findURI(`${baseURL}${shortURL}`, name);
 
             if (result.found) {
+                console.log('result.uri: ', result.uri);
                 return res.redirect(result.uri);
             }
             res.status(400).json({ error: 'Bad request' });
