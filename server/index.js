@@ -24,6 +24,8 @@ const setSession = (req, res, next) => {
     next();
 };
 
+console.log('FRONT: ', process.env.FRONT);
+
 app.use(cors({
     origin: ['http://localhost:3000', process.env.FRONT],
     credentials: true,
