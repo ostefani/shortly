@@ -1,4 +1,5 @@
 const { API } = process.env;
+console.log('API: ', API);
 
 export default params => {
     const URI = `${API}/api`;
