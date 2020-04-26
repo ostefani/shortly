@@ -2,11 +2,11 @@ version: "3"
 services:
     client:
         container_name: shortly-client
+        restart: on-failure
         build:
             context: ./client
         ports:
             - 3000:3000
-        command: npm start
     api:
         depends_on:
             - mongo
@@ -18,9 +18,10 @@ services:
             #- DB=${DB}
             #- FRONT=${FRONT}
             #- PORT=${PORT}
+        volumes:
+            - ./server/.env:/app/.env # building the .env file into a docker image is considered a bad practice because if the image is shared with others, the secrets can be leaked.
         ports:
             - 3001:3001
-        command: npm start
     mongo:
         image: mongo
         restart: always

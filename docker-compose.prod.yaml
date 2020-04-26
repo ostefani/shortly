@@ -1,0 +1,10 @@
+version: "3"
+services:
+    client:
+        command: npm start
+    api:
+        #environment:
+            #- DB=${DB}
+            #- FRONT=${FRONT}
+            #- PORT=${PORT}
+        command: npm start
