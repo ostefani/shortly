@@ -13,8 +13,6 @@ const MongoStore = ConnectMongo(session);
 const app = express();
 const PORT = process.env.PORT || 3001;
 const { DB } = process.env;
-console.log('PORT: ', PORT);
-console.log('DB: ', DB);
 
 const setSession = (req, res, next) => {
     if (!(req.session.user_sid && req.cookies.user_sid)) {
@@ -23,8 +21,6 @@ const setSession = (req, res, next) => {
     }
     next();
 };
-
-console.log('FRONT: ', process.env.FRONT);
 
 app.use(cors({
     origin: ['http://localhost:3000', process.env.FRONT],
