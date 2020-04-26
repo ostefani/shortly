@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  web:
+    container_name: next-web
+    build:
+      context: .
+      target: development
+    volumes:
+      # Required to sync file changes.
+      - .:/usr/src/web
+      # Required to not break node modules.
+      - /usr/src/web/node_modules
+      # Required for next to do it's thing.
+      - /usr/src/web/.next
+    ports:
+      - 3000:3000
+    command: npm run dev
+
+    https://github.com/zeit/next.js/issues/6417
