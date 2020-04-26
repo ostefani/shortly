@@ -1,0 +1,22 @@
+version: "3"
+services:
+    client:
+        build:
+            dockerfile: Dockerfile.dev
+        volumes:
+            - ./client:/app/
+            - /app/node_modules
+            - /app/build
+        command: npm run dev
+    api:
+        build:
+            dockerfile: Dockerfile.dev
+        #environment:
+            #- DB=${DB}
+            #- FRONT=${FRONT}
+            #- PORT=${PORT}
+        volumes:
+            - ./server/.env:/app/.env # building the .env file into a docker image is considered a bad practice because if the image is shared with others, the secrets can be leaked.
+            - ./server:/app/ # Inside the container, don't try to override this folder, just leave as is
+            - /app/node_modules # Look at the server directory and copy everything into the app folder in the container
+        command: npm run dev
