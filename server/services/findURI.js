@@ -1,11 +1,11 @@
 import User from '../models/User';
 
-export default async (uri, name) => {
+export default async uri => {
     try {
-        const { _id, links } = await User.findOne(
+        const { links } = await User.findOne(
+            { 'links.shortURI': uri },
             { links: { $elemMatch: { shortURI: uri } } },
         );
-        console.log('links: ', links);
         return { found: true, uri: links[0].longURI };
     }
     catch (e) {

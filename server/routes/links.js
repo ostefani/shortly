@@ -58,8 +58,7 @@ router.route('/:shortURL')
     .get(async (req, res) => {
         try {
             const { shortURL } = req.params;
-            const name = req.session.user_sid;
-            const result = await findURI(`${baseURL}${shortURL}`, name);
+            const result = await findURI(`${baseURL}${shortURL}`);
 
             if (result.found) {
                 return res.redirect(result.uri);
