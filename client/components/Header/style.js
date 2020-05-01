@@ -7,6 +7,7 @@ export default css`
         justify-content: space-between;
         padding-top: 16px;
         padding-bottom: 16px;
+        align-items: center;
     }
     ul {
         margin: 0;
