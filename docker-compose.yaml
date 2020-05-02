@@ -29,3 +29,5 @@ services:
             - 27017:27017
         volumes:
             - ./data/db:/data/db # Make data persist in prod
+    redis:
+        image: redis
