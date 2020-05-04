@@ -8,9 +8,8 @@ client.get = promisify(client.get);
 export default async uri => {
     try {
         const cacheValue = await client.get(uri);
-        console.log('cacheValue: ', cacheValue);
+
         if (cacheValue) {
-            client.ttl(uri, (err, data) => console.log('expires: ', data));
             return { found: true, uri: cacheValue };
         }
 
