@@ -24,6 +24,7 @@ The application does not use authorization, tracking users by sessions. Redirect
 - [Node.js](https://nodejs.org/en/) 12+
 - [Express](https://expressjs.com/) web framework
 - [MongoDB](https://www.mongodb.com/) NoSQL database
+- [Redis](https://redis.io/) in-memory data structure store
 
 ### Front End
 
