@@ -58,6 +58,7 @@ router.route('/:shortURL')
     .get(async (req, res) => {
         try {
             const { shortURL } = req.params;
+            console.log('shortURL: ', shortURL);
             const result = await findURI(`${baseURL}${shortURL}`);
 
             if (result.found) {

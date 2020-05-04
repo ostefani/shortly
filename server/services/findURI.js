@@ -1,27 +1,45 @@
-const { promisify } = require('util');
+import { promisify } from 'util';
+import redis from 'redis';
 import User from '../models/User';
-const redis = require('redis');
-const client = redis.createClient({ host: 'redis', port: 6379 });
+
+const client = redis.createClient({ host: process.env.REDIS_URI, port: process.env.REDIS_PORT });
 client.get = promisify(client.get);
-// const redisClient = require('redis').createClient;
-// const redis = redisClient(6379, 'localhost');
-// redis.get = promisify(redis.get);
 
 export default async uri => {
-    console.log('uri: ', uri);
     try {
         const cacheValue = await client.get(uri);
         console.log('cacheValue: ', cacheValue);
         if (cacheValue) {
+            client.ttl(uri, (err, data) => console.log('expires: ', data));
             return { found: true, uri: cacheValue };
         }
-        const { links } = await User.findOne(
-            { 'links.shortURI': uri },
-            { links: { $elemMatch: { shortURI: uri } } },
-        );
-        client.set(uri, links[0].longURI, 'EX', 60 * 60 * 24);
-        console.log('links: ', links[0].longURI);
-        return { found: true, uri: links[0].longURI };
+
+        const result = await User.aggregate([
+            {
+                $match: {
+                    'links.shortURI': uri,
+                },
+            },
+            {
+                $project: {
+                    _id: 0,
+                    createdAt: 1,
+                    links: {
+                        $filter: {
+                            input: '$links', as: 'link', cond: { $eq: ['$$link.shortURI', uri] },
+                        },
+                    },
+                },
+            },
+        ]);
+
+        if (result.length > 0) {
+            const [{ createdAt, links }] = result;
+            client.set(uri, links[0].longURI);
+            client.expireat(uri, Math.ceil(+createdAt / 1000) + 86400);
+            return { found: true, uri: links[0].longURI };
+        }
+        return { found: false };
     }
     catch (e) {
         console.log('Find links: ', e);
