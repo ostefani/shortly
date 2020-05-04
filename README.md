@@ -4,7 +4,7 @@ URI shortener app, created using JavaScript stack.
 
 [User Stories](#user-stories) | [Tools Used](#tools-used-aka-tech-stack) | [Install & Build](#install-and-build) | [Demo](#demo)
 
-The application does not use authorization, tracking users by sessions. Sessions and other data are removed within 24 hours after creation.
+The application does not use authorization, tracking users by sessions. Redirects are cached in Redis. Sessions and other data are removed within 24 hours after creation.
 
 ## User Stories
 
