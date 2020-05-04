@@ -8,8 +8,8 @@ export default ({ links }) => {
                     ? links.map(e => (
                         <li key={Math.random()}>
                             <div>
-                                <a href={e.shortURI}>{e.shortURI}</a>
-                                <a href={e.longURI}>{e.longURI}</a>
+                                <a href={e.shortURI} target="_blank" rel="noopener noreferrer">{e.shortURI}</a>
+                                <a href={e.longURI} target="_blank" rel="noopener noreferrer">{e.longURI}</a>
                             </div>
                         </li>
                     ))

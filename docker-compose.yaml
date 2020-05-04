@@ -10,6 +10,7 @@ services:
     api:
         depends_on:
             - mongo
+            - redis
         container_name: shortly-api
         restart: on-failure
         build:
@@ -29,3 +30,8 @@ services:
             - 27017:27017
         volumes:
             - ./data/db:/data/db # Make data persist in prod
+    redis:
+        image: redis
+        command: ["redis-server", "--appendonly", "yes"] # Make data persist
+        volumes:
+            - ./data/redis:/data/redis
