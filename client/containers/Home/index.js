@@ -76,6 +76,13 @@ export default () => {
 
     return (
         <Page>
+            <div className="jumbotron">
+                <div className="header-container">
+                    <h1>Create shortened links</h1>
+                    <p>Shortly is a tool to shorten links, making it easy to remember and share them everywhere.</p>
+                </div>
+                <img src="/images/document.svg" />
+            </div>
             <Form onSubmit={isURLCreated ? handleSubmitSubpart : handleSubmitURI}>
                 <Label inputId="uri">{!isURLCreated ? 'Enter your link' : 'Your link is'}</Label>
                 <Input
@@ -107,18 +114,36 @@ export default () => {
                 <div className="button-container">
                     <Button>Send</Button>
                     {isURLCreated && <TextButton onClick={handleCancelClick}>Complete</TextButton>}
-                    <style jsx>{`
-                        div {
-                            display: grid;
-                            grid-template-columns: repeat(auto-fill, minmax(144px,1fr));
-                            column-gap: 16px;
-                            row-gap: 16px;
-                        }
-                    `}
-                    </style>
                 </div>
             </Form>
-
+            <style jsx>{`
+            .button-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(144px,1fr));
+                column-gap: 16px;
+                row-gap: 16px;
+            }
+            h1 {
+                font-size: 62px;
+                font-family: var(--main);
+                margin: 0;
+            }
+            p {
+                font-size: var(--large);
+                line-height: 1.5;
+                color: #56575b;
+            }
+            .header-container {
+                width: 75%;
+                padding-top: 100px;
+                padding-bottom: 100px;
+            }
+            .jumbotron {
+                display: flex;
+                justify-content: space-between;
+            }
+            `}
+            </style>
         </Page>
     );
 };
