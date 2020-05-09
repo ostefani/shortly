@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useSpring, animated } from 'react-spring';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import Footer from '../../components/Footer';
+
 import TextButton from '../../components/TextButton';
 import Form from '../Form';
 import postURI from '../../lib/postURI';
@@ -81,7 +84,6 @@ export default () => {
                     <h1>Create shortened links</h1>
                     <p>Shortly is a tool to shorten links, making it easy to remember and share them everywhere.</p>
                 </div>
-                <img src="/images/document.svg" />
             </div>
             <Form onSubmit={isURLCreated ? handleSubmitSubpart : handleSubmitURI}>
                 <Label inputId="uri">{!isURLCreated ? 'Enter your link' : 'Your link is'}</Label>
@@ -116,6 +118,7 @@ export default () => {
                     {isURLCreated && <TextButton onClick={handleCancelClick}>Complete</TextButton>}
                 </div>
             </Form>
+            <Footer />
             <style jsx>{`
             .button-container {
                 display: grid;
