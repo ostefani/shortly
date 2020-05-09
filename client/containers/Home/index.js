@@ -138,8 +138,8 @@ export default () => {
             }
             .header-container {
                 width: 75%;
-                padding-top: 100px;
-                padding-bottom: 100px;
+                padding-top: 40px;
+                padding-bottom: 40px;
             }
             .jumbotron {
                 display: flex;
