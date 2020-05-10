@@ -48,7 +48,7 @@ export default ({
             <style jsx>{input}</style>
             <style jsx>{`
                 input {
-                    border: ${error ? '2px solid var(--error)' : '2px solid #00000040'}
+                    border: ${error ? '2px solid var(--error)' : '2px solid var(--onbackground)'}
                 }
             `}
             </style>
