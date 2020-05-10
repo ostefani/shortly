@@ -17,7 +17,7 @@ button {
     min-width: 144px;
     background: var(--primary);
     color: var(--onprimary);
-    font-size: var(--small);
+    font-size: var(--med);
     transition: box-shadow 0.5s ease, background-color 0.5s ease;
     border-radius: 4px;
     justify-self: center;
