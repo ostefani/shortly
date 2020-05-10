@@ -4,8 +4,6 @@ export default () => {
             <a href="https://github.com/ostefani" target="_blank" rel="noopener noreferrer">Olga Stefanishyna</a>
             <style jsx>{`
             footer {
-                margin-top: 64px;
-                height: 40px;
                 display: flex;
                 justify-content: center;
                 align-items: center;

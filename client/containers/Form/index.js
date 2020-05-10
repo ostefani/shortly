@@ -2,7 +2,6 @@ import css from 'styled-jsx/css';
 import form, { container } from './style';
 
 export default ({
-    title,
     children,
     onSubmit,
     onChange,

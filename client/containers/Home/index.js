@@ -4,7 +4,6 @@ import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import Footer from '../../components/Footer';
 
 import TextButton from '../../components/TextButton';
 import Form from '../Form';
@@ -79,47 +78,52 @@ export default () => {
 
     return (
         <Page>
-            <div className="jumbotron">
-                <div className="header-container">
-                    <h1>Create shortened links</h1>
-                    <p>Shortly is a tool to shorten links, making it easy to remember and share them everywhere.</p>
+            <div className="content-container">
+                <div className="jumbotron">
+                    <div className="header-container">
+                        <h1>Create shortened links</h1>
+                        <p>Shortly is a tool to shorten links, making it easy to remember and share them everywhere.</p>
+                    </div>
                 </div>
+                <Form onSubmit={isURLCreated ? handleSubmitSubpart : handleSubmitURI}>
+                    <Label inputId="uri">{!isURLCreated ? 'Enter your link' : 'Your link is'}</Label>
+                    <Input
+                        name="uri"
+                        id="uri"
+                        placeholder="Paste your link"
+                        value={uriValue}
+                        error={uriError}
+                        onChange={handleChange}
+                        disabled={isURLCreated}
+                        isSnackbarActive={isSnackbarActive}
+                        setIsSnackbarActive={setIsSnackbarActive}
+                        message="Successfully created"
+                    />
+                    {isURLCreated
+                        && (
+                            <>
+                                <Label inputId="link">You can change subpart</Label>
+                                <Input
+                                    name="subpart"
+                                    id="subpart"
+                                    placeholder="Your new subpart"
+                                    value={subpartValue}
+                                    error={subpartError}
+                                    onChange={handleChange}
+                                />
+                            </>
+                        )}
+                    <div className="button-container">
+                        <Button>Send</Button>
+                        {isURLCreated && <TextButton onClick={handleCancelClick}>Complete</TextButton>}
+                    </div>
+                </Form>
             </div>
-            <Form onSubmit={isURLCreated ? handleSubmitSubpart : handleSubmitURI}>
-                <Label inputId="uri">{!isURLCreated ? 'Enter your link' : 'Your link is'}</Label>
-                <Input
-                    name="uri"
-                    id="uri"
-                    placeholder="Paste your link"
-                    value={uriValue}
-                    error={uriError}
-                    onChange={handleChange}
-                    disabled={isURLCreated}
-                    isSnackbarActive={isSnackbarActive}
-                    setIsSnackbarActive={setIsSnackbarActive}
-                    message="Successfully created"
-                />
-                {isURLCreated
-                    && (
-                        <>
-                            <Label inputId="link">You can change subpart</Label>
-                            <Input
-                                name="subpart"
-                                id="subpart"
-                                placeholder="Your new subpart"
-                                value={subpartValue}
-                                error={subpartError}
-                                onChange={handleChange}
-                            />
-                        </>
-                    )}
-                <div className="button-container">
-                    <Button>Send</Button>
-                    {isURLCreated && <TextButton onClick={handleCancelClick}>Complete</TextButton>}
-                </div>
-            </Form>
-            <Footer />
             <style jsx>{`
+            .content-container {
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
             .button-container {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(144px,1fr));
@@ -144,6 +148,8 @@ export default () => {
             .jumbotron {
                 display: flex;
                 justify-content: space-between;
+                align-items: center;
+                min-height: 400px;
             }
             `}
             </style>
