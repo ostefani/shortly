@@ -142,7 +142,7 @@ export default () => {
             }
             .header-container {
                 width: 75%;
-                padding-top: 40px;
+                padding-top: 0;
                 padding-bottom: 40px;
             }
             .jumbotron {
