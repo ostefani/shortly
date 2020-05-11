@@ -34,6 +34,8 @@ services:
             - ./data/db:/data/db # Make data persist in prod
     redis:
         image: redis
+        sysctls:
+            net.core.somaxconn: '511'
         command: ["redis-server", "--appendonly", "yes"] # Make data persist
         volumes:
             - ./data/redis:/data
