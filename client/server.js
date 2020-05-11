@@ -12,16 +12,23 @@ const client = redis.createClient({ host: 'redis', port: 6379 });
 client.get = promisify(client.get);
 
 const cachePage = async (req, res, pagePath) => {
+    console.log({ pagePath }, typeof pagePath);
     try {
         const cache = await client.get(pagePath);
+        console.log({ cache });
         if (cache) {
             console.log('CACHE');
             res.setHeader('x-cache', 'HIT');
-            return res.send(cache);
+            res.send(cache);
         }
-        const html = await app.renderToHTML(req, res, pagePath);
-        client.set(pagePath, html);
-        return res.send(html);
+        else {
+            console.log('NO CACHE');
+            const html = await app.renderToHTML(req, res, pagePath);
+            console.log('html: ', typeof html);
+            client.set(pagePath, html);
+            res.setHeader('x-cache', 'MISS');
+            res.send(html);
+        }
     }
     catch (error) {
         console.log('cachePage: ', error);
@@ -37,7 +44,7 @@ app.prepare().then(() => {
     });
 
     server.get('/', (req, res) => {
-        return cachePage(req, res, '/');
+        cachePage(req, res, '/');
     });
 
     server.all('*', (req, res) => {

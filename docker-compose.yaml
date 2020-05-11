@@ -1,6 +1,8 @@
 version: "3"
 services:
     client:
+        depends_on:
+            - redis
         container_name: shortly-client
         restart: on-failure
         build:
