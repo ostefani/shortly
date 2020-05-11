@@ -4,7 +4,7 @@ services:
         depends_on:
             - redis
         container_name: shortly-client
-        restart: on-failure
+        # restart: on-failure
         build:
             context: ./client
         ports:
@@ -14,7 +14,7 @@ services:
             - mongo
             - redis
         container_name: shortly-api
-        restart: on-failure
+        # restart: on-failure
         build:
             context: ./server
         #environment:
