@@ -4,9 +4,9 @@
   "description": "client for shortener",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start",
+    "start": "env NODE_ENV=production node server.js",
     "storybook": "start-storybook -p 6006 -s ./public",
     "build-storybook": "build-storybook"
   },
@@ -26,6 +26,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-spring": "^8.0.27",
+    "redis": "^3.0.2",
     "swr": "^0.2.0"
   },
   "devDependencies": {
