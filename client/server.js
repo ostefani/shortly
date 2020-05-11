@@ -15,7 +15,6 @@ const cachePage = async (req, res, pagePath) => {
     console.log({ pagePath }, typeof pagePath);
     try {
         const cache = await client.get(pagePath);
-        console.log({ cache });
         if (cache) {
             console.log('CACHE');
             res.setHeader('x-cache', 'HIT');
@@ -38,13 +37,8 @@ const cachePage = async (req, res, pagePath) => {
 app.prepare().then(() => {
     const server = express();
 
-    server.get('/a', (req, res) => {
-        // return app.render(req, res, '/a', req.query);
-        return new Error('Not found');
-    });
-
     server.get('/', (req, res) => {
-        cachePage(req, res, '/');
+        return cachePage(req, res, '/');
     });
 
     server.all('*', (req, res) => {
