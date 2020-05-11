@@ -36,4 +36,4 @@ services:
         image: redis
         command: ["redis-server", "--appendonly", "yes"] # Make data persist
         volumes:
-            - ./data/redis:/data/redis
+            - ./data/redis:/data
