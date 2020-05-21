@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'npm --version'
+                sh 'docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml up'
             }
         }
     }
