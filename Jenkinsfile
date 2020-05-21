@@ -1,7 +1,7 @@
 pipeline {
-    agent { docker { image 'node:10' } }
+    agent any
     environment {
-        PATH = "$PATH:/usr/local/bin"
+        PATH = "$PATH:~/usr/local/bin"
     }
     stages {
         stage('build') {
