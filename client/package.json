@@ -4,9 +4,9 @@
   "description": "client for shortener",
   "main": "index.js",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "next",
     "build": "next build",
-    "start": "env NODE_ENV=production node server.js",
+    "start": "next start",
     "storybook": "start-storybook -p 6006 -s ./public",
     "build-storybook": "build-storybook"
   },
